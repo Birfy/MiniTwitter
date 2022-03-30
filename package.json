@@ -1,0 +1,24 @@
+{
+  "name": "minitwitter",
+  "version": "1.0.0",
+  "description": "minitwitter",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Birfy/MiniTwitter.git"
+  },
+  "author": "Danyang Chen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Birfy/MiniTwitter/issues"
+  },
+  "homepage": "https://github.com/Birfy/MiniTwitter#readme",
+  "dependencies": {
+    "express": "^4.17.3",
+    "pug": "^3.0.2"
+  }
+}
