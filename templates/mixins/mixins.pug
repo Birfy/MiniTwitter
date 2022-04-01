@@ -7,3 +7,28 @@ mixin createPostForm(userLoggedIn)
             .buttonContainer 
                 button#submitPostButton(disabled="") Post 
 
+mixin createReplyModal(userLoggedIn)
+
+    #replyModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='replyModalLabel', aria-hidden='true')
+        .modal-dialog(role='document')
+            .modal-content
+                // Modal Header
+                .modal-header
+                    h5#replayModalLabel.modal-title Reply
+                    button.btn.btn-close(type='button', data-bs-dismiss='modal')
+                    //- span(aria-hidden='true') &times;
+                // Modal body
+                .modal-body
+                    #originalPostContainer
+                    .postFormContainer 
+                        .userImageContainer 
+                            img(src=userLoggedIn.profilePic, alt="User's profile picture")
+                        .textareaContainer 
+                            textarea#replyTextarea(placeholder="What's happening?")
+                // Modal footer
+                .modal-footer
+                    button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Close
+                    button#submitReplyButton.btn.btn-primary(type='button', disabled="") Reply
+
+
+
