@@ -74,6 +74,37 @@ $("#replyModal").on("hidden.bs.modal", (event) => {
     // document.location.reload(true);
 })
 
+$("#deletePostModal").on("show.bs.modal", (event) => {
+    var button = $(event.relatedTarget);
+    var postId = getPostIdFromElement(button);
+    // console.log(postId);
+    $("#deletePostButton").data("id", postId);
+    // if (postId === undefined) {
+    //     return;
+    // }
+
+    // $.delete(`/api/posts/${postId}`, results => {
+    //     outputPosts(results.postData, $("#originalPostContainer"));
+    // })
+})
+
+$("#deletePostModal").on("hidden.bs.modal", (event) => {
+    $("#originalPostContainer").html("");
+    // document.location.reload(true);
+})
+
+$('#deletePostButton').click((event) => {
+    var postId = $(event.target).data("id");
+
+    $.ajax({
+        url: `/api/posts/${postId}`,
+        type: "DELETE",
+        success: (postData) => {
+            document.location.reload(true);
+        }
+    })
+})
+
 $(document).on("click", ".likeButton",(event) => {
     var button = $(event.target);
     var postId = getPostIdFromElement(button);
@@ -188,6 +219,12 @@ function createPostHtml(postData, largeFont = false) {
         replyFlag = `<div class='replyFlag'>Replying to <a href='/profile/${replyToUsername}'>@${replyToUsername}</a></div>`;
     }
 
+    var buttons = "";
+    if (postData.postedBy._id == userLoggedIn._id) {
+        buttons = `<button data-id="${postData._id}" data-bs-toggle="modal" data-bs-target="#deletePostModal"><i class="fa-solid fa-xmark"></i></button>`;
+        
+    }
+
     return `<div class = 'post ${largeFontClass}' data-id='${postData._id}'>
                 <div class='postActionContainer'>
                     ${retweetText}
@@ -201,6 +238,7 @@ function createPostHtml(postData, largeFont = false) {
                             <a href='/profile/${postedBy.username}' class='displayName'>${displayName}</a>
                             <span class='username'>@${postedBy.username}</span>
                             <span class='date'>${timestamp}</span>
+                            ${buttons}
                         </div>
                         ${replyFlag}
                         <div class='postBody'>

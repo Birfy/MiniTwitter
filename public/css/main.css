@@ -250,6 +250,20 @@ button span {
 
 }
 
+.header {
+    display: flex;
+}
+
+.header .date {
+    flex: 1;
+}
+
+.noResults {
+    padding-left: var(--spacing);
+    padding-top: var(--spacing);
+    font-size: 23px;
+}
+
 
 
 
