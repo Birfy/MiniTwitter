@@ -95,6 +95,7 @@ $("#deletePostModal").on("hidden.bs.modal", (event) => {
 
 $('#deletePostButton').click((event) => {
     var postId = $(event.target).data("id");
+    
 
     $.ajax({
         url: `/api/posts/${postId}`,
@@ -165,6 +166,45 @@ $(document).on("click", ".post",(event) => {
         window.location.href = '/post/' + postId;
 })
 
+$(document).on("click", ".followButton",(event) => {
+    var button = $(event.target);
+
+    var userId = button.data().user;
+
+    $.ajax({
+        url: `/api/users/${userId}/follow`,
+        type: "PUT",
+        success: (data, status, xhr) => {
+            // console.log(data);
+            if (xhr.status == 404){
+                alert("User not found");
+                return;
+            }
+            // var difference = 1;
+            if (data.following && data.following.includes(userId)) {
+                button.addClass("following");
+                button.text("Following");
+            } else {
+                button.removeClass("following");
+                button.text("Follow");
+                // difference = -1;
+            }
+
+            document.location.reload(true);
+
+
+            // var followersLabel = $("#followersValue");
+            // if (followersLabel.length != 0) {
+            //     var followersText = followersLabel.text();
+            //     followersText = parseInt(followersText);
+            //     followersLabel.text(followersText + difference);
+            // }
+
+
+        }
+    })
+})
+
 function getPostIdFromElement(element) {
     var isRoot = element.hasClass("post");
     var rootElement = isRoot == true ? element : element.closest(".post");
@@ -177,13 +217,45 @@ function getPostIdFromElement(element) {
 }
 
 function createPostHtml(postData, largeFont = false) {
+    
     if (postData == null)
         return alert("post object is null");
 
+    // var retweetId = postData._id;
+    
+    // console.log(postData);
+
     var isRetweet = postData.retweetData !== undefined;
     var retweetedBy = isRetweet ? postData.postedBy.username : null;
+
+    if (isRetweet) {
+        if (postData.retweetData != null) {
+            postData = postData.retweetData;
+        } 
+        if (postData.content === undefined) {
+            var originalDeleted = true;
+            postData.content = "<span>Original tweet is not available</span>";
+        }
+        // isRetweet = postData.retweetData !== undefined;
+        // } else {
+            // postData.content = "<span>Original tweet is not available</span>"
+        // }
+    }
+
+    // console.log(postData);
     
-    postData = isRetweet ? postData.retweetData : postData;
+    // postData = isRetweet && postData.retweetData != null ? postData.retweetData : postData;
+    // console.log(postData);
+
+    // if(postData == null) {
+    //     $.ajax({
+    //         url: `/api/posts/${postId}`,
+    //         type: "DELETE",
+    //         success: (postData) => {
+    //             document.location.reload(true);
+    //         }
+    //     })
+    // } 
 
     var postedBy = postData.postedBy;
 
@@ -220,7 +292,7 @@ function createPostHtml(postData, largeFont = false) {
     }
 
     var buttons = "";
-    if (postData.postedBy._id == userLoggedIn._id) {
+    if (postData.postedBy._id == userLoggedIn._id && (!isRetweet || originalDeleted)) {
         buttons = `<button data-id="${postData._id}" data-bs-toggle="modal" data-bs-target="#deletePostModal"><i class="fa-solid fa-xmark"></i></button>`;
         
     }
