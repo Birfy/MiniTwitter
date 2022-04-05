@@ -42,6 +42,7 @@ const postsApiRouter = require("./routes/api/posts");
 const usersApiRouter = require("./routes/api/users");
 const postRouter = require("./routes/postRoutes");
 const profileRouter = require("./routes/profileRoutes");
+const uploadRouter = require("./routes/uploadRoutes");
 
 app.use("/login", loginRouter);
 app.use("/register", registerRouter);
@@ -50,6 +51,7 @@ app.use("/api/posts", postsApiRouter);
 app.use("/api/users", usersApiRouter);
 app.use("/post", middleware.requireLogin, postRouter);
 app.use("/profile", middleware.requireLogin, profileRouter);
+app.use("/uploads", uploadRouter);
 
 app.get("/", middleware.requireLogin, (req, res, next) => {
     var payload = {

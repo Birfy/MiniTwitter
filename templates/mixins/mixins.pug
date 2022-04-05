@@ -42,7 +42,7 @@ mixin createDeletePostModal()
                     //- span(aria-hidden='true') &times;
                 // Modal body
                 .modal-body
-                    p You won't be able to delete this.
+                    p Delete the post?
                 // Modal footer
                 .modal-footer
                     button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Close
@@ -61,3 +61,43 @@ mixin createTab(name, href, isSelected)
     - className = isSelected ? "tab active" : "tab"
     a(href=href, class = className)
         span #{name}
+
+mixin createImageUploadModal()
+    #imageUploadModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='imageUploadLabel', aria-hidden='true')
+        .modal-dialog(role='document')
+            .modal-content
+                // Modal Header
+                .modal-header
+                    h5#imageUploadModalLabel.modal-title Upload a new profile picture
+                    button.btn.btn-close(type='button', data-bs-dismiss='modal')
+                    //- span(aria-hidden='true') &times;
+                // Modal body
+                .modal-body
+                    input#filePhoto(type="file", name="filePhoto")
+
+                    .imagePreviewContainer 
+                        img#imagePreview
+                // Modal footer
+                .modal-footer
+                    button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Cancel
+                    button#imageUploadButton.btn.btn-primary(type='button') Save
+
+mixin createCoverPhotoUploadModal()
+    #coverPhotoUploadModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='coverPhotoUploadLabel', aria-hidden='true')
+        .modal-dialog(role='document')
+            .modal-content
+                // Modal Header
+                .modal-header
+                    h5#coverPhotoUploadModalLabel.modal-title Upload a new cover photo
+                    button.btn.btn-close(type='button', data-bs-dismiss='modal')
+                    //- span(aria-hidden='true') &times;
+                // Modal body
+                .modal-body
+                    input#fileCoverPhoto(type="file", name="coverPhoto")
+
+                    .imagePreviewContainer 
+                        img#coverPreview
+                // Modal footer
+                .modal-footer
+                    button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Cancel
+                    button#coverPhotoButton.btn.btn-primary(type='button') Save
