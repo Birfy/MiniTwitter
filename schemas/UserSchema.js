@@ -39,6 +39,10 @@ const UserSchema = new Schema({
         default: "/images/profilePic.png"
     },
 
+    coverPhoto: {
+        type: String
+    },
+
     likes: [{
         type: Schema.Types.ObjectId,
         ref: 'Post'
@@ -47,6 +51,16 @@ const UserSchema = new Schema({
     retweets: [{
         type: Schema.Types.ObjectId,
         ref: 'Post'
+    }],
+
+    following: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+
+    followers: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
     }]
 }, {timestamps: true});
 

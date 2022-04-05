@@ -8,6 +8,10 @@
 
     
 // })
+//Globals
+
+let cropper;
+
 
 $("#postTextarea, #replyTextarea").keyup((event) => {
     var textbox = $(event.target);
@@ -74,6 +78,146 @@ $("#replyModal").on("hidden.bs.modal", (event) => {
     // document.location.reload(true);
 })
 
+$("#deletePostModal").on("show.bs.modal", (event) => {
+    var button = $(event.relatedTarget);
+    var postId = getPostIdFromElement(button);
+    // console.log(postId);
+    $("#deletePostButton").data("id", postId);
+    // if (postId === undefined) {
+    //     return;
+    // }
+
+    // $.delete(`/api/posts/${postId}`, results => {
+    //     outputPosts(results.postData, $("#originalPostContainer"));
+    // })
+})
+
+$("#deletePostModal").on("hidden.bs.modal", (event) => {
+    $("#originalPostContainer").html("");
+    // document.location.reload(true);
+})
+
+$('#deletePostButton').click((event) => {
+    var postId = $(event.target).data("id");
+    
+
+    $.ajax({
+        url: `/api/posts/${postId}`,
+        type: "DELETE",
+        success: (postData) => {
+            document.location.reload(true);
+        }
+    })
+})
+
+$("#filePhoto").change(function(){
+    // var input = $(event);
+    
+    if (this.files && this.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var image = document.getElementById("imagePreview");
+
+            image.src = e.target.result;
+            // $("#imagePreview").attr("src", e.target.result);
+
+            if (cropper !== undefined) {
+                cropper.destroy();
+            }
+
+
+            cropper = new Cropper(image, {
+                aspectRatio: 1 / 1,
+                background: false
+            });
+            
+        }
+
+
+        reader.readAsDataURL(this.files[0]);
+    }
+})
+
+$("#fileCoverPhoto").change(function(){
+    // var input = $(event);
+    
+    if (this.files && this.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var image = document.getElementById("coverPreview");
+
+            image.src = e.target.result;
+            // $("#imagePreview").attr("src", e.target.result);
+
+            if (cropper !== undefined) {
+                cropper.destroy();
+            }
+
+
+            cropper = new Cropper(image, {
+                aspectRatio: 16 / 9,
+                background: false
+            });
+            
+        }
+
+
+        reader.readAsDataURL(this.files[0]);
+    }
+})
+
+$("#imageUploadButton").click((event) => {
+    var canvas = cropper.getCroppedCanvas();
+
+    if (canvas == null) {
+        alert("Could not upload image. Make sure it is an image file.")
+        return;
+    }
+
+    canvas.toBlob((blob) => {
+        var formData = new FormData();
+
+        formData.append("croppedImage", blob);
+
+        $.ajax({
+            url: "/api/users/profilePicture",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: () => {
+                document.location.reload(true);
+            }
+        });
+    })
+})
+
+$("#coverPhotoButton").click((event) => {
+    var canvas = cropper.getCroppedCanvas();
+
+    if (canvas == null) {
+        alert("Could not upload image. Make sure it is an image file.")
+        return;
+    }
+
+    canvas.toBlob((blob) => {
+        var formData = new FormData();
+
+        formData.append("croppedImage", blob);
+
+        $.ajax({
+            url: "/api/users/coverPhoto",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: () => {
+                document.location.reload(true);
+            }
+        });
+    })
+})
+
 $(document).on("click", ".likeButton",(event) => {
     var button = $(event.target);
     var postId = getPostIdFromElement(button);
@@ -134,6 +278,45 @@ $(document).on("click", ".post",(event) => {
         window.location.href = '/post/' + postId;
 })
 
+$(document).on("click", ".followButton",(event) => {
+    var button = $(event.target);
+
+    var userId = button.data().user;
+
+    $.ajax({
+        url: `/api/users/${userId}/follow`,
+        type: "PUT",
+        success: (data, status, xhr) => {
+            // console.log(data);
+            if (xhr.status == 404){
+                alert("User not found");
+                return;
+            }
+            // var difference = 1;
+            if (data.following && data.following.includes(userId)) {
+                button.addClass("following");
+                button.text("Following");
+            } else {
+                button.removeClass("following");
+                button.text("Follow");
+                // difference = -1;
+            }
+
+            document.location.reload(true);
+
+
+            // var followersLabel = $("#followersValue");
+            // if (followersLabel.length != 0) {
+            //     var followersText = followersLabel.text();
+            //     followersText = parseInt(followersText);
+            //     followersLabel.text(followersText + difference);
+            // }
+
+
+        }
+    })
+})
+
 function getPostIdFromElement(element) {
     var isRoot = element.hasClass("post");
     var rootElement = isRoot == true ? element : element.closest(".post");
@@ -146,13 +329,45 @@ function getPostIdFromElement(element) {
 }
 
 function createPostHtml(postData, largeFont = false) {
+    
     if (postData == null)
         return alert("post object is null");
 
+    // var retweetId = postData._id;
+    
+    // console.log(postData);
+
     var isRetweet = postData.retweetData !== undefined;
     var retweetedBy = isRetweet ? postData.postedBy.username : null;
+
+    if (isRetweet) {
+        if (postData.retweetData != null) {
+            postData = postData.retweetData;
+        } 
+        if (postData.content === undefined) {
+            var originalDeleted = true;
+            postData.content = "<span>Original tweet is not available</span>";
+        }
+        // isRetweet = postData.retweetData !== undefined;
+        // } else {
+            // postData.content = "<span>Original tweet is not available</span>"
+        // }
+    }
+
+    // console.log(postData);
     
-    postData = isRetweet ? postData.retweetData : postData;
+    // postData = isRetweet && postData.retweetData != null ? postData.retweetData : postData;
+    // console.log(postData);
+
+    // if(postData == null) {
+    //     $.ajax({
+    //         url: `/api/posts/${postId}`,
+    //         type: "DELETE",
+    //         success: (postData) => {
+    //             document.location.reload(true);
+    //         }
+    //     })
+    // } 
 
     var postedBy = postData.postedBy;
 
@@ -188,6 +403,12 @@ function createPostHtml(postData, largeFont = false) {
         replyFlag = `<div class='replyFlag'>Replying to <a href='/profile/${replyToUsername}'>@${replyToUsername}</a></div>`;
     }
 
+    var buttons = "";
+    if (postData.postedBy._id == userLoggedIn._id && (!isRetweet || originalDeleted)) {
+        buttons = `<button data-id="${postData._id}" data-bs-toggle="modal" data-bs-target="#deletePostModal"><i class="fa-solid fa-xmark"></i></button>`;
+        
+    }
+
     return `<div class = 'post ${largeFontClass}' data-id='${postData._id}'>
                 <div class='postActionContainer'>
                     ${retweetText}
@@ -201,6 +422,7 @@ function createPostHtml(postData, largeFont = false) {
                             <a href='/profile/${postedBy.username}' class='displayName'>${displayName}</a>
                             <span class='username'>@${postedBy.username}</span>
                             <span class='date'>${timestamp}</span>
+                            ${buttons}
                         </div>
                         ${replyFlag}
                         <div class='postBody'>
