@@ -4,6 +4,7 @@ const router = express.Router();
 const bodyParser = require("body-parser");
 const Chat = require('../../schemas/ChatSchema');
 const User = require("../../schemas/UserSchema");
+const Message = require("../../schemas/MessageSchema");
 // const Post = require('../../schemas/PostSchema');
 
 app.use(bodyParser.urlencoded({extended: false}));
@@ -77,6 +78,24 @@ router.put("/:chatId", async (req, res, next) => {
     Chat.findByIdAndUpdate(req.params.chatId, req.body)
     .then(results => {
         res.sendStatus(204);
+    })
+    .catch(error => {
+        console.log(error);
+        res.sendStatus(400);
+    })
+
+    
+});
+
+router.get("/:chatId/messages", async (req, res, next) => {
+    // console.log(req.params)
+    Message.find({chat: req.params.chatId})
+    .populate("sender")
+    // .populate("latestMessage")
+    .then(results => {
+        // console.log(results);
+        
+        res.status(200).send(results);
     })
     .catch(error => {
         console.log(error);

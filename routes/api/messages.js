@@ -4,6 +4,7 @@ const router = express.Router();
 const bodyParser = require("body-parser");
 const Chat = require('../../schemas/ChatSchema');
 const Message = require('../../schemas/MessageSchema');
+const User = require("../../schemas/UserSchema");
 
 app.use(bodyParser.urlencoded({extended: false}));
 
@@ -23,6 +24,7 @@ router.post("/", async (req, res, next) => {
     .then(async message => {
         message = await message.populate(["sender"]);
         message = await message.populate(["chat"]);
+        message = await User.populate(message, {path: "chat.users"});
         Chat.findByIdAndUpdate(req.body.chatId, {latestMessage: message})
         .catch(error => {
             console.log(error);

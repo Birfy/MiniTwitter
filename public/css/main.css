@@ -20,6 +20,10 @@ html, body {
     /* font-weight: 300; */
 }
 
+ul {
+    margin: 0;
+}
+
 * {
     outline: none !important;
 }
@@ -187,6 +191,17 @@ button span {
 .mainContentContainer {
     flex: 1;
     display: flex;
+    overflow-y: hidden;
+}
+
+.chatMessages::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+.chatMessages {
+-ms-overflow-style: none;  /* IE and Edge */
+scrollbar-width: none;  /* Firefox */
 }
 
 .postContentContainer {
@@ -471,6 +486,7 @@ button span {
     flex-direction: column;
     min-height: 0; 
     flex: 1;   
+    flex-basis: 0;
 }
 
 .chatTitleBarContainer {
@@ -680,6 +696,7 @@ button span {
 
 }
 
+.typingDots img,
 .chatMessages .message .messageBody{
     background-color: #f1f0f0;
     padding: 6px 12px;
@@ -687,10 +704,29 @@ button span {
     font-size: 14px;
 }
 
+.typingDots img {
+    /* margin-left: var(--spacing); */
+    height: 35px;
+}
+
+.typingDots {
+    padding: var(--spacing);
+    padding-bottom: 0;
+    display: none;
+}
+
 .chatMessages .message .messageContainer {
     display: flex;
     flex-direction: column;
     max-width: 55%;
+}
+
+.chatMessages .message.mine .messageContainer {
+    align-items: flex-end;
+}
+
+.chatMessages .message.theirs .messageContainer {
+    align-items: flex-start;
 }
 
 .chatMessages .message.mine {
@@ -702,3 +738,70 @@ button span {
     color: #fff;
 }
 
+.chatMessages .message.mine.first .messageBody {
+    border-bottom-right-radius: 2px;
+}
+
+.chatMessages .message.mine:not(.first):not(.last) .messageBody {
+    border-bottom-right-radius: 2px;
+    border-top-right-radius: 2px;
+}
+
+.chatMessages .message.mine.last .messageBody {
+    border-bottom-right-radius: 18px;
+}
+
+.chatMessages .message.mine:not(.first) .messageBody {
+    /* border-bottom-right-radius: 2px; */
+    border-top-right-radius: 2px;
+}
+
+.chatMessages .message.theirs.first .messageBody {
+    border-bottom-left-radius: 2px;
+}
+
+.chatMessages .message.theirs:not(.first):not(.last) .messageBody {
+    border-bottom-left-radius: 2px;
+    border-top-left-radius: 2px;
+}
+
+.chatMessages .message.theirs.last .messageBody {
+    border-bottom-left-radius: 18px;
+}
+
+.chatMessages .message.theirs:not(.first) .messageBody {
+    /* border-bottom-right-radius: 2px; */
+    border-top-left-radius: 2px;
+}
+
+.senderName {
+    color: rgba(0,0,0,0.4)
+}
+
+.chatMessages .imageContainer {
+    height: 24px;
+    width: 24px;
+    margin-right: 7px;
+}
+
+.chatMessages img {
+    height: 100%;
+    border-radius: 50%;
+    vertical-align: bottom;
+}
+
+.chatMessages .message.last {
+    margin-bottom: 7px;
+}
+
+.loadingSpinnerContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.loadingSpinnerContainer img {
+    width: 50%;
+    max-width: 150px;
+}
