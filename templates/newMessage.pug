@@ -1,0 +1,17 @@
+extends layouts/main-layout.pug
+
+block content 
+    //- +createPostForm(userLoggedIn)
+    .chatPageContainer 
+        .chatTitleBar 
+            label(for="userSearchTextbox") To: 
+            #selectedUsers 
+                input#userSearchTextbox(type="text", name="userSearchTextbox", placeholder = "Type the name of the person")
+        .resultsContainer
+        button#createChatButton(disabled) Create chat
+    //- +createPostModals(userLoggedIn)
+
+block scripts
+    script(src='/js/newMessage.js')
+
+

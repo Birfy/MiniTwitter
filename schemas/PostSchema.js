@@ -31,6 +31,7 @@ const PostSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Post'
     },
+    pinned: Boolean
 }, {timestamps: true});
 
 var Post = mongoose.model('Post', PostSchema);
