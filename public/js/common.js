@@ -10,8 +10,7 @@
 // })
 //Globals
 
-let cropper;
-
+var cropper;
 
 $("#postTextarea, #replyTextarea").keyup((event) => {
     var textbox = $(event.target);
@@ -276,6 +275,8 @@ $("#coverPhotoButton").click((event) => {
     })
 })
 
+
+
 $(document).on("click", ".likeButton",(event) => {
     var button = $(event.target);
     var postId = getPostIdFromElement(button);
@@ -360,15 +361,15 @@ $(document).on("click", ".followButton",(event) => {
                 // difference = -1;
             }
 
-            document.location.reload(true);
+            // document.location.reload(true);
 
 
-            // var followersLabel = $("#followersValue");
-            // if (followersLabel.length != 0) {
-            //     var followersText = followersLabel.text();
-            //     followersText = parseInt(followersText);
-            //     followersLabel.text(followersText + difference);
-            // }
+            var followersLabel = $("#followersValue");
+            if (followersLabel.length != 0) {
+                var followersText = followersLabel.text();
+                followersText = parseInt(followersText);
+                followersLabel.text(followersText + difference);
+            }
 
 
         }
@@ -576,7 +577,7 @@ function outputPosts(results, container) {
 
 function outputPinnedPost(results, container) {
     if (results.length == 0) {
-        constainer.hide();
+        container.hide();
         return;
     }
     
@@ -604,3 +605,75 @@ function outputPostsWithReplies(results, container) {
         container.append(html);
     })
 }
+
+function outputUsers(results, container) {
+
+    // console.log(results);
+    container.html("");
+    // console.log(container);
+    results.forEach(result => {
+        var html = createUserHtml(result, true);
+        container.append(html);
+    })
+
+    if (results.length == 0) {
+        container.append("<span class='noResults'> No results found</span>")
+    }
+}
+
+function createUserHtml(userData, showFollowButton) {
+
+    var name = userData.firstName + " " + userData.lastName;
+    var isFollowing = userLoggedIn.following && userLoggedIn.following.includes(userData._id);
+    var text = isFollowing ? "Following" : "Follow";
+    var buttonClass = isFollowing? "followButton following" : "followButton"
+
+    var followButton = '';
+    if (showFollowButton && userLoggedIn._id != userData._id) {
+        followButton = `<div class='followButtonContainer'>
+                            <button class='${buttonClass}' data-user='${userData._id}'>${text}</button>
+                        </div>`
+    }
+    return `<div class='user'>
+                <div class='userImageContainer'>
+                    <img src='${userData.profilePic}'>
+                </div>
+                <div class='userDetailsContainer'>
+                    <div class='header'>
+                        <a href='/profile/${userData.username}'>${name}</a>
+                        <span class='username'>@${userData.username}</span>
+                    </div>
+                </div>
+                ${followButton}
+            </div>`
+}
+
+function searchUsers(searchTerm) {
+    $.get("/api/users", { search: searchTerm}, results => {
+        outputSelectableUsers(results, $(".resultsContainer"));
+    })
+}
+
+function getChatName(chatData) {
+    var chatName = chatData.chatName;
+
+    
+    if (!chatName) {
+        var otherChatUsers = getOtherChatUsers(chatData.users);
+        var numsArray = otherChatUsers.map(user => user.firstName + " " + user.lastName);
+        chatName = numsArray.join(', ');
+    }
+
+    return chatName;
+}
+
+function getOtherChatUsers(users) {
+    if (users.length == 1) {
+        return users;
+    }
+
+    return users.filter((user) => {
+        return user._id != userLoggedIn._id;
+    })
+}
+

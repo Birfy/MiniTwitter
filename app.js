@@ -38,20 +38,30 @@ app.use(session({
 const loginRouter = require("./routes/loginRoutes");
 const registerRouter = require("./routes/registerRoutes");
 const logoutRouter = require("./routes/logoutRoutes");
-const postsApiRouter = require("./routes/api/posts");
-const usersApiRouter = require("./routes/api/users");
 const postRouter = require("./routes/postRoutes");
 const profileRouter = require("./routes/profileRoutes");
 const uploadRouter = require("./routes/uploadRoutes");
+const searchRouter = require("./routes/searchRoutes");
+const messagesRouter = require("./routes/messagesRoutes");
+
+const postsApiRouter = require("./routes/api/posts");
+const usersApiRouter = require("./routes/api/users");
+const chatsApiRouter = require("./routes/api/chats");
+const messagesApiRouter = require("./routes/api/messages");
 
 app.use("/login", loginRouter);
 app.use("/register", registerRouter);
 app.use("/logout", logoutRouter);
-app.use("/api/posts", postsApiRouter);
-app.use("/api/users", usersApiRouter);
 app.use("/post", middleware.requireLogin, postRouter);
 app.use("/profile", middleware.requireLogin, profileRouter);
 app.use("/uploads", uploadRouter);
+app.use("/search", middleware.requireLogin, searchRouter);
+app.use("/messages", middleware.requireLogin, messagesRouter);
+
+app.use("/api/posts", postsApiRouter);
+app.use("/api/users", usersApiRouter);
+app.use("/api/chats", chatsApiRouter);
+app.use("/api/messages", messagesApiRouter);
 
 app.get("/", middleware.requireLogin, (req, res, next) => {
     var payload = {
