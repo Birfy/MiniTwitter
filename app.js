@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const port = 80;
+const port = 3000;
 const middleware = require("./middleware");
 // const https = require("https")
 // const fs = require("fs")
