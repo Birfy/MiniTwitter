@@ -49,11 +49,13 @@ const profileRouter = require("./routes/profileRoutes");
 const uploadRouter = require("./routes/uploadRoutes");
 const searchRouter = require("./routes/searchRoutes");
 const messagesRouter = require("./routes/messagesRoutes");
+const notificationsRouter = require("./routes/notificationRoutes");
 
 const postsApiRouter = require("./routes/api/posts");
 const usersApiRouter = require("./routes/api/users");
 const chatsApiRouter = require("./routes/api/chats");
 const messagesApiRouter = require("./routes/api/messages");
+const notificationsApiRouter = require("./routes/api/notifications");
 const Message = require("./schemas/MessageSchema");
 
 app.use("/login", loginRouter);
@@ -64,11 +66,13 @@ app.use("/profile", middleware.requireLogin, profileRouter);
 app.use("/uploads", uploadRouter);
 app.use("/search", middleware.requireLogin, searchRouter);
 app.use("/messages", middleware.requireLogin, messagesRouter);
+app.use("/notifications", middleware.requireLogin, notificationsRouter);
 
 app.use("/api/posts", postsApiRouter);
 app.use("/api/users", usersApiRouter);
 app.use("/api/chats", chatsApiRouter);
 app.use("/api/messages", messagesApiRouter);
+app.use("/api/notifications", notificationsApiRouter);
 
 app.get("/", middleware.requireLogin, (req, res, next) => {
     var payload = {
@@ -98,8 +102,14 @@ io.on("connection", (socket)=>{
         socket.in(room).emit("stop typing");
     })
 
+    socket.on("notification received", room => {
+        socket.in(room).emit("notification received");
+    })
+
     socket.on("new message", newMessage => {
         var chat = newMessage.chat;
+
+        // console.log(chat.users);
 
         if (!chat.users)
             return console.log("Chat.users not defined")

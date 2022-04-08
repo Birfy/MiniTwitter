@@ -12,14 +12,34 @@ socket.on("connected", () => {
 })
 
 socket.on("message received", (newMessage) => {
+    // console.log("it works");
     messageReceived(newMessage);
 })
 
 function messageReceived(newMessage) {
-    if ($(".chatContainer").length == 0) {
-        alert(newMessage);
+    if ($(`[data-room=${newMessage.chat._id}]`).length == 0) {
+
+        showMessagePopup(newMessage);
+        
     } else {
         addChatMessageHtml(newMessage);
+        
     }
+    refreshMessagesBadge();
+}
+
+socket.on("notification received", () => {
+    $.get("/api/notifications/latest", (notificationData)=> {
+        
+        refreshNotificationsBadge()
+        showNotificationPopup(notificationData);
+    })
+})
+
+function emitNotification(userId) {
+    if (userId == userLoggedIn._id)
+        return;
+    
+    socket.emit("notification received", userId);
 }
 
