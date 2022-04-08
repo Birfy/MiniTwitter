@@ -8,7 +8,8 @@ class Database {
 
 
     connect() {
-        mongoose.connect("mongodb+srv://admin:642850@minitwittercluster.umzem.mongodb.net/MiniTwitterDB?retryWrites=true&w=majority")
+        console.log(process.env.MONGODB_URI+"/"+process.env.DB_NAME)
+        mongoose.connect(process.env.MONGODB_URI+"/"+process.env.DB_NAME)
         .then(() => {
         console.log("Database connection successful");
         })

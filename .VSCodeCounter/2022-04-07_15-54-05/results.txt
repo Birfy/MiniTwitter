@@ -1,0 +1,88 @@
+Date : 2022-04-07 15:54:05
+Directory : d:\Projects\MiniTwitter
+Total : 50 files,  6755 codes, 187 comments, 768 blanks, all 7710 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| JSON       |          2 |      3,928 |          0 |          2 |      3,930 |
+| JavaScript |         30 |      1,733 |        157 |        514 |      2,404 |
+| CSS        |          2 |        693 |         10 |        149 |        852 |
+| Pug        |         14 |        391 |         19 |        102 |        512 |
+| Docker     |          1 |          9 |          1 |          1 |         11 |
+| Markdown   |          1 |          1 |          0 |          0 |          1 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                        | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                           |         50 |      6,755 |        187 |        768 |      7,710 |
+| public                                                      |         12 |      1,506 |         99 |        411 |      2,016 |
+| public\css                                                  |          2 |        693 |         10 |        149 |        852 |
+| public\js                                                   |         10 |        813 |         89 |        262 |      1,164 |
+| routes                                                      |         13 |        684 |         58 |        188 |        930 |
+| routes\api                                                  |          4 |        394 |         39 |        115 |        548 |
+| schemas                                                     |          4 |        131 |          0 |         34 |        165 |
+| templates                                                   |         14 |        391 |         19 |        102 |        512 |
+| templates\layouts                                           |          2 |         57 |          3 |         14 |         74 |
+| templates\mixins                                            |          1 |        153 |          7 |         20 |        180 |
++-------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                    | language   | code       | comment    | blank      | total      |
++-------------------------------------------------------------+------------+------------+------------+------------+------------+
+| d:\Projects\MiniTwitter\Dockerfile                          | Docker     |          9 |          1 |          1 |         11 |
+| d:\Projects\MiniTwitter\README.md                           | Markdown   |          1 |          0 |          0 |          1 |
+| d:\Projects\MiniTwitter\app.js                              | JavaScript |         82 |         10 |         25 |        117 |
+| d:\Projects\MiniTwitter\database.js                         | JavaScript |         16 |          0 |          5 |         21 |
+| d:\Projects\MiniTwitter\middleware.js                       | JavaScript |          7 |          0 |          0 |          7 |
+| d:\Projects\MiniTwitter\package-lock.json                   | JSON       |      3,897 |          0 |          1 |      3,898 |
+| d:\Projects\MiniTwitter\package.json                        | JSON       |         31 |          0 |          1 |         32 |
+| d:\Projects\MiniTwitter\public\css\login.css                | CSS        |         39 |          0 |          5 |         44 |
+| d:\Projects\MiniTwitter\public\css\main.css                 | CSS        |        654 |         10 |        144 |        808 |
+| d:\Projects\MiniTwitter\public\js\chatPage.js               | JavaScript |        148 |          1 |         54 |        203 |
+| d:\Projects\MiniTwitter\public\js\clientSocket.js           | JavaScript |         16 |          2 |          8 |         26 |
+| d:\Projects\MiniTwitter\public\js\common.js                 | JavaScript |        456 |         81 |        143 |        680 |
+| d:\Projects\MiniTwitter\public\js\followersAndFollowing.js  | JavaScript |         17 |          0 |          5 |         22 |
+| d:\Projects\MiniTwitter\public\js\home.js                   | JavaScript |          5 |          0 |          2 |          7 |
+| d:\Projects\MiniTwitter\public\js\inboxPage.js              | JavaScript |         54 |          2 |         11 |         67 |
+| d:\Projects\MiniTwitter\public\js\newMessage.js             | JavaScript |         65 |          3 |         26 |         94 |
+| d:\Projects\MiniTwitter\public\js\postPage.js               | JavaScript |          5 |          0 |          1 |          6 |
+| d:\Projects\MiniTwitter\public\js\profile.js                | JavaScript |         20 |          0 |          4 |         24 |
+| d:\Projects\MiniTwitter\public\js\search.js                 | JavaScript |         27 |          0 |          8 |         35 |
+| d:\Projects\MiniTwitter\routes\api\chats.js                 | JavaScript |         77 |          7 |         26 |        110 |
+| d:\Projects\MiniTwitter\routes\api\messages.js              | JavaScript |         35 |          1 |          7 |         43 |
+| d:\Projects\MiniTwitter\routes\api\posts.js                 | JavaScript |        171 |         29 |         55 |        255 |
+| d:\Projects\MiniTwitter\routes\api\users.js                 | JavaScript |        111 |          2 |         27 |        140 |
+| d:\Projects\MiniTwitter\routes\loginRoutes.js               | JavaScript |         40 |          0 |          9 |         49 |
+| d:\Projects\MiniTwitter\routes\logoutRoutes.js              | JavaScript |         12 |          0 |          3 |         15 |
+| d:\Projects\MiniTwitter\routes\messagesRoutes.js            | JavaScript |         72 |         11 |         17 |        100 |
+| d:\Projects\MiniTwitter\routes\notificationRoutes.js        | JavaScript |         14 |          1 |          3 |         18 |
+| d:\Projects\MiniTwitter\routes\postRoutes.js                | JavaScript |         15 |          0 |          3 |         18 |
+| d:\Projects\MiniTwitter\routes\profileRoutes.js             | JavaScript |         50 |          3 |         13 |         66 |
+| d:\Projects\MiniTwitter\routes\registerRoutes.js            | JavaScript |         53 |          4 |         16 |         73 |
+| d:\Projects\MiniTwitter\routes\searchRoutes.js              | JavaScript |         24 |          0 |          6 |         30 |
+| d:\Projects\MiniTwitter\routes\uploadRoutes.js              | JavaScript |         10 |          0 |          3 |         13 |
+| d:\Projects\MiniTwitter\schemas\ChatSchema.js               | JavaScript |         22 |          0 |          7 |         29 |
+| d:\Projects\MiniTwitter\schemas\MessageSchema.js            | JavaScript |         22 |          0 |          8 |         30 |
+| d:\Projects\MiniTwitter\schemas\PostSchema.js               | JavaScript |         32 |          0 |          6 |         38 |
+| d:\Projects\MiniTwitter\schemas\UserSchema.js               | JavaScript |         55 |          0 |         13 |         68 |
+| d:\Projects\MiniTwitter\templates\chatPage.pug              | Pug        |         25 |          0 |          9 |         34 |
+| d:\Projects\MiniTwitter\templates\followersAndFollowing.pug | Pug        |         14 |          2 |          5 |         21 |
+| d:\Projects\MiniTwitter\templates\home.pug                  | Pug        |          7 |          0 |          4 |         11 |
+| d:\Projects\MiniTwitter\templates\inboxPage.pug             | Pug        |          8 |          2 |          5 |         15 |
+| d:\Projects\MiniTwitter\templates\layouts\login-layout.pug  | Pug        |         13 |          1 |          5 |         19 |
+| d:\Projects\MiniTwitter\templates\layouts\main-layout.pug   | Pug        |         44 |          2 |          9 |         55 |
+| d:\Projects\MiniTwitter\templates\login.pug                 | Pug        |         10 |          0 |          3 |         13 |
+| d:\Projects\MiniTwitter\templates\mixins\mixins.pug         | Pug        |        153 |          7 |         20 |        180 |
+| d:\Projects\MiniTwitter\templates\newMessage.pug            | Pug        |         11 |          2 |          5 |         18 |
+| d:\Projects\MiniTwitter\templates\notificationsPage.pug     | Pug        |          8 |          2 |          5 |         15 |
+| d:\Projects\MiniTwitter\templates\postPage.pug              | Pug        |          8 |          0 |          5 |         13 |
+| d:\Projects\MiniTwitter\templates\profilePage.pug           | Pug        |         53 |          1 |         13 |         67 |
+| d:\Projects\MiniTwitter\templates\register.pug              | Pug        |         25 |          0 |          6 |         31 |
+| d:\Projects\MiniTwitter\templates\searchPage.pug            | Pug        |         12 |          0 |          8 |         20 |
+| Total                                                       |            |      6,755 |        187 |        768 |      7,710 |
++-------------------------------------------------------------+------------+------------+------------+------------+------------+

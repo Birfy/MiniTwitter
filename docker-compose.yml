@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  # MongoDB services
+  mongo_db: 
+    container_name: db_container
+    image: mongo:latest
+    restart: always
+    #ports: 
+    #  - 2717:27017
+    volumes:
+      - mongo_db:/data/db
+
+  web:
+    #build: .
+    image: birfied/birfytwitter:latest
+    ports:
+      - 80:3000
+    # volumes:
+    #   - /app:.
+    environment:
+      # PORT: 3000
+      MONGODB_URI: mongodb://mongo_db:27017
+      DB_NAME: birfytwitter
+    depends_on:
+      - mongo_db
+
+volumes:
+  mongo_db: {}
